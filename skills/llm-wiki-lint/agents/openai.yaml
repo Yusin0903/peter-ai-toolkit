@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Lint"
+  short_description: "Check markdown wiki quality and visibility boundaries"
+  default_prompt: "Use $llm-wiki-lint to check the configured wiki for quality and visibility issues."

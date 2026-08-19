@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Ingest"
+  short_description: "Ingest notes into a configurable markdown wiki"
+  default_prompt: "Use $llm-wiki-ingest to classify and ingest this content into the configured markdown wiki."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Todo"
+  short_description: "Manage the single source of truth TODO list in a markdown wiki"
+  default_prompt: "Use $llm-wiki-todo to inspect or update the configured wiki TODO list."

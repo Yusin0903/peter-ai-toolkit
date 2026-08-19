@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Export"
+  short_description: "Lint and export public notes from a markdown wiki"
+  default_prompt: "Use $llm-wiki-export to lint and export public notes from the configured wiki."

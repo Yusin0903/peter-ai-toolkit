@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Wiki Daily"
+  short_description: "Create and update daily notes in a markdown wiki"
+  default_prompt: "Use $llm-wiki-daily to update the configured wiki daily note."

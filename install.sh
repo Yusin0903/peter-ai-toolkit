@@ -64,17 +64,35 @@ backup_if_real() {
 log "linking owned files"
 
 backup_if_real "$CLAUDE_DIR/CLAUDE.md"
-run ln -s "$REPO_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+run ln -s "$REPO_DIR/agents/claude/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
 
 backup_if_real "$CLAUDE_DIR/docs"
 run ln -s "$REPO_DIR/docs" "$CLAUDE_DIR/docs"
 
-# Codex: AGENTS.md -> ~/.codex/AGENTS.md
+# Codex: agents/codex/AGENTS.md -> ~/.codex/AGENTS.md
 CODEX_DIR="${CODEX_HOME:-$HOME/.codex}"
 run mkdir -p "$CODEX_DIR"
 backup_if_real "$CODEX_DIR/AGENTS.md"
-run ln -s "$REPO_DIR/AGENTS.md" "$CODEX_DIR/AGENTS.md"
+run ln -s "$REPO_DIR/agents/codex/AGENTS.md" "$CODEX_DIR/AGENTS.md"
 run mkdir -p "$CODEX_DIR/skills"
+
+# Pi: agents/pi/AGENTS.md -> ~/.pi/agent/AGENTS.md
+PI_DIR="${PI_HOME:-$HOME/.pi/agent}"
+if [[ -d "$PI_DIR" ]]; then
+  backup_if_real "$PI_DIR/AGENTS.md"
+  run ln -s "$REPO_DIR/agents/pi/AGENTS.md" "$PI_DIR/AGENTS.md"
+fi
+
+# OMP: agents/omp/AGENTS.md -> ~/.omp/agent/AGENTS.md
+OMP_DIR="${OMP_HOME:-$HOME/.omp/agent}"
+if [[ -d "$OMP_DIR" ]]; then
+  backup_if_real "$OMP_DIR/AGENTS.md"
+  run ln -s "$REPO_DIR/agents/omp/AGENTS.md" "$OMP_DIR/AGENTS.md"
+fi
+
+# Agents: ~/.agents/skills (for omp and other agents)
+AGENTS_DIR="${AGENTS_DIR:-$HOME/.agents}"
+run mkdir -p "$AGENTS_DIR/skills"
 
 # Symlink each owned skill
 shopt -s nullglob
@@ -88,6 +106,10 @@ for skill_dir in "$REPO_DIR/skills"/*/; do
   backup_if_real "$codex_target"
   log "  skill (codex): $skill_name"
   run ln -s "${skill_dir%/}" "$codex_target"
+  agents_target="$AGENTS_DIR/skills/$skill_name"
+  backup_if_real "$agents_target"
+  log "  skill (agents): $skill_name"
+  run ln -s "${skill_dir%/}" "$agents_target"
 done
 shopt -u nullglob
 

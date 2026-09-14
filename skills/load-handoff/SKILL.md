@@ -46,26 +46,33 @@ Validate explicit selectors before reading them: they must be relative target co
 
 1. Resolve and report the target path and whether it is a repo branch, repo worktree, or PCT case.
 2. Read `~/context_record/<target>/current.md`.
-   - If it does not exist, list the relevant entries under `~/context_record/` so the user can see available targets, and stop.
-3. If the structured target is absent, a matching legacy flat record may be read once as compatibility input:
+   - If it exists, use it as the canonical record.
+   - If it is missing and the target was explicit, continue only to the same-target compatibility fallback below; do not redirect to another target.
+   - If it is missing after no target or `default`, continue to the repository fallback search below before listing entries and stopping.
+3. For no-target/default repository resolution, search for a compatible fallback when the exact structured target is absent:
+   - Check `~/context_record/<repo>/current.md` as a legacy flat record.
+   - If that is absent or incompatible, search `~/context_record/repos/<repo>/**/current.md`, including the nested `branches/` and `worktrees/` layouts. Accept a candidate only when its recorded `Repository`, `Branch`, and `Worktree path`/`Target` match the current context.
+   - If exactly one compatible record is found, load it and state the fallback path. If multiple compatible records are found, list them and stop; never choose another branch/worktree by recency.
+   This fallback is only for an omitted target or `default`; do not use it to satisfy an explicit target.
+4. For an explicit target whose structured path is absent, a matching same-target legacy record may be read once as compatibility input:
    - PCT case: `~/context_record/PCT-123456/current.md`.
    - Repository: `~/context_record/<repo>/current.md` only when its recorded branch/worktree metadata matches the current context and the repository has no ambiguous worktree match.
    State clearly that a legacy fallback was used. Do not copy or migrate it automatically.
-4. Reconcile the recorded state against reality before trusting it. For a repo handoff, compare:
+5. Reconcile the recorded state against reality before trusting it. For a repo handoff, compare:
    - recorded `Repository` / `Target` against the resolved repository target;
    - recorded `Branch` against `git branch --show-current`;
    - recorded `Worktree path` against `git rev-parse --show-toplevel`;
    - recorded `Latest commit` against `git log -1 --oneline`;
    - recorded state against `git status --short` for drift.
    For a PCT case with no related repo, there is no Git reconciliation; say that explicitly.
-5. Summarise concisely:
+6. Summarise concisely:
    - one-line title and focus;
    - current state: done / mid-flight / blocked;
    - LOCKED decisions;
    - ordered next steps;
    - any target, branch, worktree, commit, or dirty-tree drift.
-6. Confirm the resolved target and whether the recorded state matches reality.
-7. Do not auto-start high-risk next steps such as deploy, apply, commit, or any action marked high-risk by project instructions. Surface the next step and let the user choose it. Low-risk reading or planning may continue only when the request clearly asks to continue.
+7. Confirm the resolved target and whether the recorded state matches reality.
+8. Do not auto-start high-risk next steps such as deploy, apply, commit, or any action marked high-risk by project instructions. Surface the next step and let the user choose it. Low-risk reading or planning may continue only when the request clearly asks to continue.
 
 If the requested target is missing, list `~/context_record/` (and the matching `repos/<repo>/` or `cases/` subtree when useful) and stop. Never invent state from an archive or another branch/worktree.
 

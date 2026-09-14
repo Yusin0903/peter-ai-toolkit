@@ -6,18 +6,24 @@ My portable skill tree for AI coding agents — global instructions, owned skill
 
 ```
 peter-ai-toolkit/
-├── CLAUDE.md                   # Global rules — symlinked to ~/.claude/CLAUDE.md
-├── AGENTS.md                   # Global rules — symlinked to ~/.codex/AGENTS.md
-├── docs/                       # Imported by CLAUDE.md/AGENTS.md via @docs/...
+├── agents/                     # Per-agent global rules, one folder each
+│   ├── claude/CLAUDE.md        # symlinked to ~/.claude/CLAUDE.md
+│   ├── codex/AGENTS.md         # symlinked to ~/.codex/AGENTS.md
+│   ├── pi/AGENTS.md            # symlinked to ~/.pi/agent/AGENTS.md
+│   └── omp/
+│       ├── AGENTS.md           # symlinked to ~/.omp/agent/AGENTS.md
+│       └── notes.md            # non-instruction reference notes (e.g. compaction settings)
+├── docs/                       # Imported by agents/*/*.md via @docs/...
 │   ├── shared-conventions.md
 │   ├── git-conventions.md
 │   ├── pr-description-template.md
 │   ├── pr-review-teams-notify.md
 │   └── pause-sweeping-confluence-format.md
-├── skills/                     # Owned skills (linked under ~/.claude/skills/ and ~/.codex/skills/)
+├── skills/                     # Owned skills (linked under ~/.claude/skills/, ~/.codex/skills/, and ~/.agents/skills/)
 │   ├── handoff/
 │   ├── load-handoff/
 │   └── llm-wiki-{daily,export,ingest,lint,todo}/
+├── .codex/skills -> ../skills     # OMP project-local skill discovery
 ├── scripts/
 │   └── aws-key-to-profile.sh
 ├── install.sh                  # Symlink owned files + clone external skills
@@ -41,6 +47,12 @@ Dry-run first if you want to see what it'll do:
 ```bash
 ./install.sh --dry-run
 ```
+
+## OMP & Other Agents
+
+OMP loads this repo's skills globally via `~/.agents/skills/` (symlinked by `install.sh`). Its user-level model and provider settings live in `~/.omp/agent/config.yml` (see `agents/omp/notes.md` for the compaction settings reference) and use the `RDSEC_API_KEY` environment variable; the key itself is never stored here.
+
+Pi has its own `agents/pi/AGENTS.md` — pi doesn't expand `@file` references, so shared conventions are inlined there rather than imported.
 
 ## Currently installed third-party skills
 
@@ -87,6 +99,8 @@ To uninstall, delete the symlinks under `~/.claude/` and `~/.codex/` and restore
 rm ~/.claude/CLAUDE.md ~/.claude/docs
 rm ~/.claude/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo,grill-me,caveman}
 rm ~/.codex/AGENTS.md ~/.codex/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo}
+rm ~/.pi/agent/AGENTS.md ~/.omp/agent/AGENTS.md
+rm ~/.agents/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo}
 ls ~/.claude/*.bak.* ~/.codex/*.bak.*  # find backups
 ```
 

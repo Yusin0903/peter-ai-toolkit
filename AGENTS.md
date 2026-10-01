@@ -15,9 +15,10 @@ link itself needs recreating — usually it doesn't, edits to the target are liv
 
 | Live path | -> Real file (this repo) |
 |---|---|
-| `~/.claude/CLAUDE.md` | `agents/claude/CLAUDE.md` |
+| `~/.claude/AGENTS.md` | `agents/claude/AGENTS.md` |
 | `~/.claude/docs` | `docs/` |
 | `~/.codex/AGENTS.md` | `agents/codex/AGENTS.md` |
+| `~/.config/opencode/AGENTS.md` | `agents/opencode/AGENTS.md` |
 | `~/.pi/agent/AGENTS.md` | `agents/pi/AGENTS.md` |
 | `~/.omp/agent/AGENTS.md` | `agents/omp/AGENTS.md` |
 | `~/.claude/skills/<name>` | `skills/<name>/` (owned) |
@@ -29,9 +30,10 @@ Third-party skills (`grill-me`, `caveman`, ...) are **not** in this repo — the
 `~/.claude/.peter-claude-cache/<name>/` by `install.sh` and symlinked from there. Don't edit
 those in place; edit `install.sh`'s `install_external` line and re-run instead.
 
-`agents/claude/CLAUDE.md` imports shared docs via `@docs/...` (Claude Code's file-import syntax).
-Pi does not support `@file` imports, so `agents/pi/AGENTS.md` inlines the same conventions
-instead of importing them — keep both in sync by hand if `docs/shared-conventions.md` changes.
+`@docs/...` references resolve under this repo. Claude Code expands them natively; every
+other agent lazy-loads them with Read per the note at the top of `docs/shared-conventions.md`.
+No agent file inlines shared content — if `docs/shared-conventions.md` changes, nothing else
+needs hand-syncing.
 
 ## Full details
 

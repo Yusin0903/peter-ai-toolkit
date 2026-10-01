@@ -64,7 +64,10 @@ backup_if_real() {
 log "linking owned files"
 
 backup_if_real "$CLAUDE_DIR/CLAUDE.md"
-run ln -s "$REPO_DIR/agents/claude/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+# Legacy name from before the AGENTS.md unification: backup_if_real above
+# already removed it if it was a stale symlink, or backed it up if real.
+backup_if_real "$CLAUDE_DIR/AGENTS.md"
+run ln -s "$REPO_DIR/agents/claude/AGENTS.md" "$CLAUDE_DIR/AGENTS.md"
 
 backup_if_real "$CLAUDE_DIR/docs"
 run ln -s "$REPO_DIR/docs" "$CLAUDE_DIR/docs"
@@ -89,6 +92,12 @@ if [[ -d "$OMP_DIR" ]]; then
   backup_if_real "$OMP_DIR/AGENTS.md"
   run ln -s "$REPO_DIR/agents/omp/AGENTS.md" "$OMP_DIR/AGENTS.md"
 fi
+
+# OpenCode: agents/opencode/AGENTS.md -> ~/.config/opencode/AGENTS.md
+OPENCODE_DIR="${OPENCODE_HOME:-$HOME/.config/opencode}"
+run mkdir -p "$OPENCODE_DIR"
+backup_if_real "$OPENCODE_DIR/AGENTS.md"
+run ln -s "$REPO_DIR/agents/opencode/AGENTS.md" "$OPENCODE_DIR/AGENTS.md"
 
 # Agents: ~/.agents/skills (for omp and other agents)
 AGENTS_DIR="${AGENTS_DIR:-$HOME/.agents}"
@@ -166,5 +175,5 @@ install_external caveman   https://github.com/JuliusBrussee/caveman  skills/cave
 if (( DRY_RUN )); then
   log "dry-run complete — no changes made"
 else
-  log "done. verify with: ls -la $CLAUDE_DIR/{CLAUDE.md,docs,skills}"
+  log "done. verify with: ls -la $CLAUDE_DIR/{AGENTS.md,docs,skills} $HOME/.config/opencode/AGENTS.md"
 fi

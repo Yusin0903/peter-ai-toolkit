@@ -7,9 +7,10 @@ My portable skill tree for AI coding agents — global instructions, owned skill
 ```
 peter-ai-toolkit/
 ├── agents/                     # Per-agent global rules, one folder each
-│   ├── claude/CLAUDE.md        # symlinked to ~/.claude/CLAUDE.md
+│   ├── claude/AGENTS.md        # symlinked to ~/.claude/AGENTS.md
 │   ├── codex/AGENTS.md         # symlinked to ~/.codex/AGENTS.md
 │   ├── pi/AGENTS.md            # symlinked to ~/.pi/agent/AGENTS.md
+│   ├── opencode/AGENTS.md      # symlinked to ~/.config/opencode/AGENTS.md
 │   └── omp/
 │       ├── AGENTS.md           # symlinked to ~/.omp/agent/AGENTS.md
 │       └── notes.md            # non-instruction reference notes (e.g. compaction settings)
@@ -96,10 +97,10 @@ Windows native is **not** supported — use WSL2.
 To uninstall, delete the symlinks under `~/.claude/` and `~/.codex/` and restore from `.bak.*` if needed:
 
 ```bash
-rm ~/.claude/CLAUDE.md ~/.claude/docs
+rm ~/.claude/AGENTS.md ~/.claude/docs
 rm ~/.claude/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo,grill-me,caveman}
 rm ~/.codex/AGENTS.md ~/.codex/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo}
-rm ~/.pi/agent/AGENTS.md ~/.omp/agent/AGENTS.md
+rm ~/.pi/agent/AGENTS.md ~/.omp/agent/AGENTS.md ~/.config/opencode/AGENTS.md
 rm ~/.agents/skills/{handoff,load-handoff,llm-wiki-daily,llm-wiki-export,llm-wiki-ingest,llm-wiki-lint,llm-wiki-todo}
 ls ~/.claude/*.bak.* ~/.codex/*.bak.*  # find backups
 ```

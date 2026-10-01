@@ -2,9 +2,18 @@
 
 Rules that apply to all AI coding agents (Claude Code, Codex, etc.) working in this user's repos.
 
+References like `@docs/...` resolve under `~/Peter-ai-toolkit/`. If your agent does
+not auto-expand them, load the relevant ones with Read on a need-to-know basis
+(do NOT preload everything) and treat loaded content as mandatory; follow sub-references
+the same way.
+
 ## Language
 
 Default to **Traditional Chinese (zh-TW)** when the user writes Chinese, including mixed-language messages. Code, identifiers, commit messages, and PR titles stay in English.
+
+### English Practice Mode
+
+See `tools/en-practice.md`. Applies to every response: when the user writes in Chinese, show an `[EN]` line with an English translation of their message before answering normally.
 
 ## Security
 
@@ -27,6 +36,13 @@ Default to **Traditional Chinese (zh-TW)** when the user writes Chinese, includi
 - Fix only what was asked. Adjacent change is allowed only when required to make the fix correct, testable, or consistent — state the reason in one line.
 - Don't add comments, docstrings, or type annotations to code you didn't change. Modifying a signature or fixing a type error counts as "changed."
 - Don't revert user-modified files. If the worktree is dirty or on an unexpected branch, ask before overwriting.
+
+## Tool & Skill Usage
+
+- Before starting a task, check whether an enabled skill or tool can help, and prefer using it over doing the work manually.
+- Read existing files before writing; don't re-read unless changed.
+- Skip files over 100KB unless required.
+- Run tests before marking a task complete. Prefer editing existing files over creating new ones.
 
 ## Agent-Friendly Code & Comments
 
